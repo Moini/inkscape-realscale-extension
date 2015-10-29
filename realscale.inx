@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <_name>Rescale</_name>
+  <id>org.inkscape.effect.realscale</id>
+  <param name="length" type="float" min="0.1" max="100000.0" _gui-text="Real length of the scaling line:">100.0</param>
+  <param name="unit" type="enum" _gui-text="Unit: ">
+    <item value="px">px</item>
+    <item value="pt">pt</item>
+    <item value="in">in</item>
+    <item value="ft">ft</item>
+    <item value="yd">yd</item>
+    <item value="mm">mm</item>
+    <item value="cm">cm</item>
+    <item value="m">m</item>
+    <item value="km">km</item>
+  </param>
+  <_param name="instructions" type="description" xml:space="preserve">This extension allows you to scale an object (or a group of objects) by indicating the length of a scaling path in real-life units (useful for scaling architectural drawings, for example):
+    
+    * Create a straight two-point line of known length by drawing on the object you want to scale (e.g. if you know how long a wall is in your drawing, draw the line from one end of the wall to the other)
+    * Select the line first, then the drawing
+    * Unit: indicate the unit you would like to use (e.g. mm, cm, ...), but remember that your drawing can become huge if you choose m or even km. Consider replacing m with cm for convenience. 
+    **IMPORTANT**: This only works for one digit after the decimal point. Choose a smaller unit if you need more precision (for floor plans, for example, choose cm instead of m).
+    * Length: indicate how long the line you drew is in the real world (e.g. how long the wall is).</_param> 
+  <effect needs-live-preview="false">
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu _name="Scaling"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command reldir="extensions" interpreter="python">realscale.py</command>
+  </script>
+</inkscape-extension>
