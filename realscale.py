@@ -1,26 +1,31 @@
+"""
+Copyright (C) 2015 Maren Hachmann, marenhachmann@yahoo.com
+Copyright (C) 2010 Blair Bonnett, blair.bonnett@gmail.com (parts from multiscale extension)
+Copyright (C) 2005 Aaron Spike, aaron@ekips.org (parts from perspective extension)
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
+
 # standard library
 import sys
 import os
 import re
-try:
-    from subprocess import Popen, PIPE
-    bsubprocess = True
-except:
-    bsubprocess = False
+import math
+
 # local library
 import inkex
 import simplepath
 import cubicsuperpath
 
 inkex.localize()
-
-# third party
-try:
-    from numpy import *
-    from numpy.linalg import *
-except:
-    inkex.errormsg(_("Failed to import the numpy or numpy.linalg modules. These modules are required by this extension. Please install them and try again.  On a Debian-like system this can be done with the command, sudo apt-get install python-numpy."))
-    exit()
 
 class Realscale(inkex.Effect):
     def __init__(self):
@@ -75,8 +80,8 @@ class Realscale(inkex.Effect):
             obj.set('transform', transform)
 
 # Helper function
-def distance( (x0,y0),(x1,y1)):
-    return sqrt( (x0-x1)*(x0-x1) + (y0-y1)*(y0-y1) )
+def distance((x0,y0),(x1,y1)):
+    return math.sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1))
 
 if __name__ == '__main__':
     e = Realscale()
