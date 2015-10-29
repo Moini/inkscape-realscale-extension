@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
-  <_name>Rescale</_name>
+  <_name>RealScale</_name>
   <id>org.inkscape.effect.realscale</id>
   <param name="length" type="float" min="0.1" max="100000.0" _gui-text="Real length of the scaling line:">100.0</param>
   <param name="unit" type="enum" _gui-text="Unit: ">
