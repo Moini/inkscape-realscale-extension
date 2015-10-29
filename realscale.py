@@ -72,7 +72,6 @@ class Realscale(inkex.Effect):
                 transform += ' scale(%f)' % (factor)
             else:
                 transform = 'scale(%f)' % (factor)
-            inkex.debug(transform)
             obj.set('transform', transform)
 
 # Helper function
