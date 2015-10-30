@@ -14,6 +14,11 @@ Edit -> Preferences -> System: User extensions
 * Open the extension dialog: Extensions -> Scaling -> RealScale...
 * Enter the length of the line you just drew, as it is in the real world (for example, if your house wall is 10.5 m long, enter 10.5. **NOTE**: only one decimal place behind the floating point is possible - if your house is 10.54 m long, it's better to enter the value in cm for best precision)
 * Select the unit you used (for your 10.5 m house, select m; for your 1054 cm house, select cm)
+* If you want to print the drawing, consider using a substitute unit which will make things fit on the page (e.g. you *mean* km, but *use* cm, so you can easily print.
 * Apply!
 
 ![Extension UI](https://cloud.githubusercontent.com/assets/3240233/10836882/4470a4ce-7eb3-11e5-944b-aeddab8bd8d3.png)
+
+## Known issue
+
+Scaling also moves the two items, sometimes out of the current view. I'll have to dig into transformation matrices to improve that, but as it is currently absolutely sufficient for my needs, you might just use Ctrl+A, then Numpad 4 to zoom out to all items in the current drawing to find the resized items.
