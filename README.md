@@ -15,3 +15,5 @@ Edit -> Preferences -> System: User extensions
 * Enter the length of the line you just drew, as it is in the real world (for example, if your house wall is 10.5 m long, enter 10.5. **NOTE**: only one decimal place behind the floating point is possible - if your house is 10.54 m long, it's better to enter the value in cm for best precision)
 * Select the unit you used (for your 10.5 m house, select m; for your 1054 cm house, select cm)
 * Apply!
+
+![Extension UI](https://cloud.githubusercontent.com/assets/3240233/10836882/4470a4ce-7eb3-11e5-944b-aeddab8bd8d3.png)
