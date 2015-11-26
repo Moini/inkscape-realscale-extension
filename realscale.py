@@ -23,7 +23,7 @@ import math
 
 # local library
 import inkex
-import simplepath
+import simpletransform
 import cubicsuperpath
 
 inkex.localize()
@@ -42,7 +42,7 @@ class Realscale(inkex.Effect):
             inkex.errormsg(_("This extension requires two selected objects."))
             exit()            
 
-        #drawing that will be scaled is selected second
+        #drawing that will be scaled is selected second, must be a single object
         scalepath = self.selected[self.options.ids[0]]
         drawing = self.selected[self.options.ids[1]]
 
@@ -50,12 +50,15 @@ class Realscale(inkex.Effect):
             inkex.errormsg(_("The first selected object is not a path.\nPlease select a straight line instead."))
             exit()
 
+        #apply its transforms to the scaling path, so we get the correct coordinates to calculate path length
+        simpletransform.fuseTransform(scalepath)
+        
         path = cubicsuperpath.parsePath(scalepath.get('d'))
         if len(path) < 1 or len(path[0]) < 2:
             inkex.errormsg(_("This extension requires that the second selected path be two nodes long."))
             exit()
 
-        #calculate path length - disregarding scaling... :/ - only works the first time...
+        #calculate path length
         p1_x = path[0][0][1][0]
         p1_y = path[0][0][1][1]
         p2_x = path[0][1][1][0]
@@ -69,14 +72,9 @@ class Realscale(inkex.Effect):
 
         # Get drawing and current transformations
         for obj in (scalepath, drawing):
-            transform = obj.get('transform')
-            # Scale both objects as desired, avoiding matrices like the plague...
-            # simpletransform.applyTransformToNode(mat,node) and pathmodifier.computeBBox([node]) will come in handy
-            if transform:
-                transform += ' scale(%f)' % (factor)
-            else:
-                transform = 'scale(%f)' % (factor)
-            obj.set('transform', transform)
+            # Scale both objects as desired
+            scale_matrix = [[factor, 0.0, 0.0], [0.0, factor, 0.0]]
+            simpletransform.applyTransformToNode(scale_matrix,obj)
 
     def getUnittouu(self, param):
         try:
