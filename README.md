@@ -21,4 +21,4 @@ Edit -> Preferences -> System: User extensions
 
 ## Known issue
 
-Scaling also moves the two items, sometimes out of the current view. I'll have to dig into transformation matrices to improve that, but as it is currently absolutely sufficient for my needs, you might just use Ctrl+A, then Numpad 4 to zoom out to all items in the current drawing to find the resized items.
+Scaling also moves the two items, sometimes out of the current view. I haven't fixed that yet. As a workaround, use Numpad 4 to zoom out to all items in the current drawing to find the resized items.
