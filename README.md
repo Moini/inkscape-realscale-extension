@@ -12,12 +12,12 @@ Edit -> Preferences -> System: User extensions
 * Draw a straight line that connects two points in that drawing of which you know the distance in real life (for example, if you know how long a wall of your house in the drawing is, draw the line from one end of the wall to the other).
 * Select the line, then add the drawing to the selection.
 * Open the extension dialog: Extensions -> Scaling -> RealScale...
-* Enter the length of the line you just drew, as it is in the real world (for example, if your house wall is 10.5 m long, enter 10.5.
-* Select the unit you used (for your 10.5 m house, select m; for your 1054 cm house, select cm)
-* If you want to print the drawing, consider using a substitute unit which will make things fit on the page (e.g. you *mean* km, but *use* cm, so you can easily print your drawing).
+* Enter the length of the line you just drew, as it is in the real world (for example, if your house wall is 10.5 m long, enter 10.50.
+* Select the unit you used (for your 10.50 m house, select m; for your 10 cm cardboard box, select cm)
+* If you intend to print the drawing, consider using a substitute unit which will make things fit on the page (e.g. you *mean* km, but *use* cm, so you can easily print your drawing).
 * Apply!
 
-![Extension UI](https://cloud.githubusercontent.com/assets/3240233/11429285/3c02c0be-9476-11e5-839d-62be953fd062.png)
+![Extension UI](https://cloud.githubusercontent.com/assets/3240233/11431482/3a28326a-9499-11e5-9203-22d253c88174.png)
 
 ## Known issue
 
