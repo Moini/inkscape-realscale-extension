@@ -2,10 +2,12 @@
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
   <_name>RealScale</_name>
   <id>org.inkscape.effect.realscale</id>
+  <dependency type="executable" location="extensions">cubicsuperpath.py</dependency>
+  <dependency type="executable" location="extensions">simplepath.py</dependency>
   <param name="tab" type="notebook">
       <page name="Options" _gui-text="Options">
-          <param name="length" type="float" min="0.1" max="100000.0" _gui-text="Real length: " _gui-description="Length of the scaling line in the real world">100.0</param>
-          <param name="unit" type="enum" _gui-text="Unit: " _gui-description="Real world unit">
+          <param name="length" type="float" min="0.1" max="100000.0" _gui-text="Real world length of scale path: ">100.0</param>
+          <param name="unit" type="enum" _gui-text="Unit: ">
             <item value="px">px</item>
             <item value="pt">pt</item>
             <item value="in">in</item>
