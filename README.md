@@ -17,7 +17,7 @@ Edit -> Preferences -> System: User extensions
 * If you want to print the drawing, consider using a substitute unit which will make things fit on the page (e.g. you *mean* km, but *use* cm, so you can easily print your drawing).
 * Apply!
 
-![Extension UI](https://cloud.githubusercontent.com/assets/3240233/10836882/4470a4ce-7eb3-11e5-944b-aeddab8bd8d3.png)
+![Extension UI](https://cloud.githubusercontent.com/assets/3240233/11429285/3c02c0be-9476-11e5-839d-62be953fd062.png)
 
 ## Known issue
 
