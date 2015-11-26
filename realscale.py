@@ -2,6 +2,7 @@
 Copyright (C) 2015 Maren Hachmann, marenhachmann@yahoo.com
 Copyright (C) 2010 Blair Bonnett, blair.bonnett@gmail.com (parts from multiscale extension)
 Copyright (C) 2005 Aaron Spike, aaron@ekips.org (parts from perspective extension)
+Copyright (C) 2015 Giacomo Mirabassi, giacomo@mirabassi.it (parts from jpeg export extension)
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -30,14 +31,11 @@ inkex.localize()
 class Realscale(inkex.Effect):
     def __init__(self):
         inkex.Effect.__init__(self)
-        self.OptionParser.add_option("--length",
-                        action="store", type="float", 
-                        dest="length", default="100.0",
-                        help="Length of scaling path in real-world units")
-        self.OptionParser.add_option("--unit",
-                        action="store", type="string", 
-                        dest="unit", default="cm",
-                        help="Real-world unit")
+        self.OptionParser.add_option("--tab", action="store", type="string", dest="tab")
+        self.OptionParser.add_option("--length", action="store", type="float", dest="length", default="100.0",
+                                     help="Length of scaling path in real-world units")
+        self.OptionParser.add_option("--unit", action="store", type="string", dest="unit", default="cm",
+                                     help="Real-world unit")
 
     def effect(self):
         if len(self.options.ids) != 2:
@@ -57,27 +55,34 @@ class Realscale(inkex.Effect):
             inkex.errormsg(_("This extension requires that the second selected path be two nodes long."))
             exit()
 
-        #calculate path length
+        #calculate path length - disregarding scaling... :/ - only works the first time...
         p1_x = path[0][0][1][0]
         p1_y = path[0][0][1][1]
         p2_x = path[0][1][1][0]
         p2_y = path[0][1][1][1]
 
-        p_length = self.unittouu(str(distance((p1_x, p1_y),(p2_x, p2_y))) + self.getDocumentUnit())
+        p_length = self.getUnittouu(str(distance((p1_x, p1_y),(p2_x, p2_y))) + self.getDocumentUnit())
 
         #calculate scaling factor
-        target_length = self.unittouu(str(self.options.length) + self.options.unit)
+        target_length = self.getUnittouu(str(self.options.length) + self.options.unit)
         factor = target_length / p_length
 
         # Get drawing and current transformations
         for obj in (scalepath, drawing):
             transform = obj.get('transform')
-            # Scale both objects as desired
+            # Scale both objects as desired, avoiding matrices like the plague...
+            # simpletransform.applyTransformToNode(mat,node) and pathmodifier.computeBBox([node]) will come in handy
             if transform:
                 transform += ' scale(%f)' % (factor)
             else:
                 transform = 'scale(%f)' % (factor)
             obj.set('transform', transform)
+
+    def getUnittouu(self, param):
+        try:
+            return inkex.unittouu(param)
+        except AttributeError:
+            return self.unittouu(param)
 
 # Helper function
 def distance((x0,y0),(x1,y1)):
