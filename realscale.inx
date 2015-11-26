@@ -4,7 +4,7 @@
   <id>org.inkscape.effect.realscale</id>
   <dependency type="executable" location="extensions">cubicsuperpath.py</dependency>
   <dependency type="executable" location="extensions">simpletransform.py</dependency>
-  <param name="length" type="float" min="0.1" max="100000.0" _gui-text="Length of scaling path: " _gui-description="Real-world length of the scaling path">100.0</param>
+  <param name="length" type="float" min="0.1" max="100000.0" precision="2" _gui-text="Length of scaling path: " _gui-description="Real-world length of the scaling path">100.0</param>
   <param name="unit" type="enum" _gui-text="Unit: " _gui-description="Real-world unit for drawing">
     <item value="px">px</item>
     <item value="pt">pt</item>
@@ -24,7 +24,6 @@
 • Select the line first, then the drawing (which must be a group or a single object).
 
 • Unit: indicate the unit you would like to use (e.g. mm, cm, ...), but remember that your drawing can become huge if you choose m or even km. Consider replacing m with cm for convenience.
-IMPORTANT: Only works for one digit after the decimal point. Use a smaller unit if you need more precision (for example, choose cm instead of m).
 
 • Length: indicate how long the line you drew is in the real world (e.g. how long the wall is).</_param>
   <effect needs-live-preview="false">
