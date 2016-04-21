@@ -18,7 +18,3 @@ Edit -> Preferences -> System: User extensions
 * Apply!
 
 ![Extension UI](https://cloud.githubusercontent.com/assets/3240233/11431482/3a28326a-9499-11e5-9203-22d253c88174.png)
-
-## Known issue
-
-Scaling also moves the two items, sometimes out of the current view. I haven't fixed that yet. As a workaround, use Numpad 4 to zoom out to all items in the current drawing to find the resized items.
