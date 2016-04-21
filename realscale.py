@@ -36,11 +36,6 @@ class Realscale(inkex.Effect):
                                      help="Length of scaling path in real-world units")
         self.OptionParser.add_option("--unit", action="store", type="string", dest="unit", default="cm",
                                      help="Real-world unit")
-    def getUnittouu(self, param):
-        try:
-            return inkex.unittouu(param)
-        except AttributeError:
-            return self.unittouu(param)
             
     def calc_scale_center(self, p1x, p1y, p2x, p2y):
         """ Use straight line as scaling center.
