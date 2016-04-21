@@ -36,7 +36,12 @@ class Realscale(inkex.Effect):
                                      help="Length of scaling path in real-world units")
         self.OptionParser.add_option("--unit", action="store", type="string", dest="unit", default="cm",
                                      help="Real-world unit")
-
+    def getUnittouu(self, param):
+        try:
+            return inkex.unittouu(param)
+        except AttributeError:
+            return self.unittouu(param)
+            
     def calc_scale_center(self, p1x, p1y, p2x, p2y):
         """ Use straight line as scaling center.
             - determine which point is center on basis of quadrant the line is in.
@@ -45,8 +50,8 @@ class Realscale(inkex.Effect):
         """
         scale_center = [0,0] # resulting scaling point
         # calc page center
-        pagecenter_x = self.unittouu(self.document.getroot().get('width'))/2
-        pagecenter_y = self.unittouu(self.document.getroot().get('height'))/2
+        pagecenter_x = self.getUnittouu(self.document.getroot().get('width'))/2
+        pagecenter_y = self.getUnittouu(self.document.getroot().get('height'))/2
         # calc minmax of straightline ref points
         minx = min(p1x,p2x)
         maxx = max(p1x, p2x)
