@@ -36,11 +36,44 @@ class Realscale(inkex.Effect):
                                      help="Length of scaling path in real-world units")
         self.OptionParser.add_option("--unit", action="store", type="string", dest="unit", default="cm",
                                      help="Real-world unit")
+            
+    def calc_scale_center(self, p1x, p1y, p2x, p2y):
+        """ Use straight line as scaling center.
+            - determine which point is center on basis of quadrant the line is in.
+            - approx this by using center of line
+            0,0 corresponds to UL corner of page
+        """
+        scale_center = [0,0] # resulting scaling point
+        # calc page center
+        pagecenter_x = self.getUnittouu(self.document.getroot().get('width'))/2
+        pagecenter_y = self.getUnittouu(self.document.getroot().get('height'))/2
+        # calc minmax of straightline ref points
+        minx = min(p1x, p2x)
+        maxx = max(p1x, p2x)
+        miny = min(p1y, p2y)
+        maxy = max(p1y, p2y)
+        # simplifiy calc by using center of line to determine quadrant
+        line_x = p1x + (p2x - p1x)/2
+        line_y = p1y + (p2y - p1y)/2
+        # determine quadrant
+        if line_x < pagecenter_x:
+            # Left hand side
+            if line_y < pagecenter_y:
+                scale_center = [minx,miny] # UL
+            else:
+                scale_center = [minx,maxy] # LL
+        else: # Right hand side
+            if line_y < pagecenter_y:
+                scale_center = [maxx,miny] # UR
+            else:
+                scale_center = [maxx,maxy] # LR
+        #inkex.debug("%s  %s,%s" % (scale_center, pagecenter_x*2, pagecenter_y*2))
+        return scale_center
 
     def effect(self):
         if len(self.options.ids) != 2:
-            inkex.errormsg(_("This extension requires two selected objects."))
-            exit()            
+            inkex.errormsg(_("This extension requires two selected objects. Straightline path first."))
+            exit()
 
         #drawing that will be scaled is selected second, must be a single object
         scalepath = self.selected[self.options.ids[0]]
@@ -55,7 +88,7 @@ class Realscale(inkex.Effect):
         
         path = cubicsuperpath.parsePath(scalepath.get('d'))
         if len(path) < 1 or len(path[0]) < 2:
-            inkex.errormsg(_("This extension requires that the second selected path be two nodes long."))
+            inkex.errormsg(_("This extension requires that the first selected path be two nodes long."))
             exit()
 
         #calculate path length
@@ -65,6 +98,9 @@ class Realscale(inkex.Effect):
         p2_y = path[0][1][1][1]
 
         p_length = self.getUnittouu(str(distance((p1_x, p1_y),(p2_x, p2_y))) + self.getDocumentUnit())
+        
+        # calculate scaling center
+        center = self.calc_scale_center(p1_x, p1_y, p2_x, p2_y)
 
         #calculate scaling factor
         target_length = self.getUnittouu(str(self.options.length) + self.options.unit)
@@ -72,9 +108,15 @@ class Realscale(inkex.Effect):
 
         # Get drawing and current transformations
         for obj in (scalepath, drawing):
-            # Scale both objects as desired
+            # Scale both objects about the center# first translate back to origin
+            scale_matrix = [[1, 0.0, -center[0]], [0.0, 1, -center[1]]]
+            simpletransform.applyTransformToNode(scale_matrix, obj)
+            # Then scale
             scale_matrix = [[factor, 0.0, 0.0], [0.0, factor, 0.0]]
-            simpletransform.applyTransformToNode(scale_matrix,obj)
+            simpletransform.applyTransformToNode(scale_matrix, obj)
+            # Then translate back to original scale center location
+            scale_matrix = [[1, 0.0, center[0]], [0.0, 1, center[1]]]
+            simpletransform.applyTransformToNode(scale_matrix, obj)
 
     def getUnittouu(self, param):
         try:
