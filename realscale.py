@@ -53,9 +53,9 @@ class Realscale(inkex.Effect):
         pagecenter_x = self.getUnittouu(self.document.getroot().get('width'))/2
         pagecenter_y = self.getUnittouu(self.document.getroot().get('height'))/2
         # calc minmax of straightline ref points
-        minx = min(p1x,p2x)
+        minx = min(p1x, p2x)
         maxx = max(p1x, p2x)
-        miny = min(p1y,p2y)
+        miny = min(p1y, p2y)
         maxy = max(p1y, p2y)
         # simplifiy calc by using center of line to determine quadrant
         line_x = p1x + (p2x - p1x)/2
