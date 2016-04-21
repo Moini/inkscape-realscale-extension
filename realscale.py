@@ -193,7 +193,7 @@ class Realscale(inkex.Effect):
             # !! this isn't working right if drawnscale != 1 (1:1)
             ruler_length = self.getUnittouu(str(dist) + self.options.unit) #self.getDocumentUnit()
             ruler_pos = (p1_x + (p2_x - p1_x)/2, (p1_y + (p2_y - p1_y)/2) - self.getUnittouu('3 mm'))
-            self.create_ruler( self.document.getroot(), ruler_length/drawnscale, ruler_pos, 1)
+            self.create_ruler( self.document.getroot(), ruler_length/drawnscale, ruler_pos, int(self.options.unit))
 
         # Get drawing and current transformations
         for obj in (scalepath, drawing):
