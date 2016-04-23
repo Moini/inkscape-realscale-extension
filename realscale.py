@@ -31,22 +31,32 @@ import cubicsuperpath
 inkex.localize()
 
 ### Scale Ruler
-scales = [1, 2, 4, 5, 8, 10, 16, 24, 25, 32, 33.333, 48, 50, 64, 96, 100, 128, 200, 250, 500, 1000, 1250, 2500]
-non_preferred = [25, 33.333]
+# inches = [1, 2, 4, 8, 16, 24, 32, 48, 64, 96, 128]
+# metric = [1,2,5,10,20,50,100,200,250,500,1000,1250,2500]
+# all = [1, 2, 4, 5, 8, 10, 16, 24, 25, 32, 33.333, 48, 50, 64, 96, 100, 128, 200, 250, 500, 1000, 1250, 2500]
+#non_preferred = [25, 33 1/3, 250]
 
 
 class Realscale(inkex.Effect):
     def __init__(self):
         inkex.Effect.__init__(self)
         self.OptionParser.add_option("--tab", action="store", type="string", dest="tab")
-        self.OptionParser.add_option("--length", action="store", type="float", dest="length", default="100.0",
+        self.OptionParser.add_option("--length", action="store", type="float", dest="length", default=100.0,
                                      help="Length of scaling path in real-world units")
         self.OptionParser.add_option("--unit", action="store", type="string", dest="unit", default="cm",
                                      help="Real-world unit")
         self.OptionParser.add_option('--showscale', action = 'store', type = "string", dest = "showscale", default = 'false',
-                                     help = 'Drawing Scale')
-        self.OptionParser.add_option('--drawnscale', action = 'store', type = 'string', dest = 'drawnscale', default = '1',
-                                     help = 'Drawing Scale')
+                                     help = 'Show Scale Ruler')
+        self.OptionParser.add_option('--choosescale', action = 'store', type = 'string', dest = 'choosescale', default = 'all',
+                                     help = 'Choose Scale')
+        self.OptionParser.add_option('--scales', action = 'store', type = "string", dest = "scales", default = 'all',
+                                     help = 'Common metric scales')
+        self.OptionParser.add_option('--metric', action = 'store', type = "string", dest = "metric", default = '1',
+                                     help = 'Common metric scales')
+        self.OptionParser.add_option('--imperial', action = 'store', type = "string", dest = "imperial", default = '1',
+                                     help = 'Common imperial scales')
+        self.OptionParser.add_option('--drawnscale', action = 'store', type = 'float', dest = 'drawnscale', default = 45,
+                                     help = 'Manual scale')
         self.OptionParser.add_option('--unitlength', action = 'store', type = 'int', dest = 'unitlength', default = '1',
                                      help = 'Length of scale ruler')
 
@@ -83,10 +93,11 @@ class Realscale(inkex.Effect):
         #inkex.debug("%s  %s,%s" % (scale_center, pagecenter_x*2, pagecenter_y*2))
         return scale_center
     
-    def create_ruler(self, parent, width, pos=(0,0), value=10):
+    def create_ruler(self, parent, width, pos, value, drawnscale):
         """ Draw Scale rule
             - Position above user's straightline.
             - Ruler shows two units together. First one cut into 5
+            pos is a tuple e.g. (0,0)
             Todo:
             - Add magnification e.g. 2:1 for small drawings
             - Override scale if result is > page size
@@ -144,9 +155,9 @@ class Realscale(inkex.Effect):
         text.text = str(value)
         # Scale note
         text_atts = {'style':simplestyle.formatStyle(textstyle),
-                     'x': '0', 'y': str(-font_height*2) }
+                     'x': '0', 'y': str(-font_height*2.5) }
         text = inkex.etree.SubElement(group, 'text', text_atts)
-        text.text = "Scale 1:"+str(value)
+        text.text = "Scale 1:"+str(drawnscale)+" ("+self.options.unit+")"
 
 
     def effect(self):
@@ -178,22 +189,31 @@ class Realscale(inkex.Effect):
 
         p_length = self.getUnittouu(str(distance((p1_x, p1_y),(p2_x, p2_y))) + self.getDocumentUnit())
         
+        # Find Drawing Scale
+        if self.options.choosescale == 'scales':
+            drawnscale = int(self.options.scales)
+        elif self.options.choosescale == 'metric':
+            drawnscale = int(self.options.metric)
+        elif self.options.choosescale == 'imperial':
+            drawnscale = int(self.options.imperial)
+        elif self.options.choosescale == 'manual':
+            drawnscale = int(self.options.drawnscale)
+        
         # calculate scaling center
         center = self.calc_scale_center(p1_x, p1_y, p2_x, p2_y)
-        drawnscale = int(self.options.drawnscale)
 
         #calculate scaling factor
         target_length = self.getUnittouu(str(self.options.length) + self.options.unit)
-        #inkex.debug("%s, %s" % (target_length, p_length))
         factor = (target_length / p_length) / drawnscale
+        #inkex.debug("%s, %s  %s" % (target_length, p_length, factor))
         
         # Add scale rule
         if self.options.showscale == "true":
             dist = int(self.options.unitlength)
             # !! this isn't working right if drawnscale != 1 (1:1)
-            ruler_length = self.getUnittouu(str(dist) + self.options.unit) #self.getDocumentUnit()
-            ruler_pos = (p1_x + (p2_x - p1_x)/2, (p1_y + (p2_y - p1_y)/2) - self.getUnittouu('3 mm'))
-            self.create_ruler( self.document.getroot(), ruler_length/drawnscale, ruler_pos, dist)
+            ruler_length = self.getUnittouu(str(dist*2) + self.options.unit) / drawnscale #* drawnscale * factor
+            ruler_pos = (p1_x + (p2_x - p1_x)/2, (p1_y + (p2_y - p1_y)/2) - self.getUnittouu('4 mm'))
+            self.create_ruler( self.document.getroot(), ruler_length/drawnscale, ruler_pos, dist, drawnscale)
 
         # Get drawing and current transformations
         for obj in (scalepath, drawing):

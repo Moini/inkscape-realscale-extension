@@ -2,24 +2,32 @@
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
   <_name>RealScale</_name>
   <id>org.inkscape.effect.realscale</id>
+  
   <dependency type="executable" location="extensions">cubicsuperpath.py</dependency>
   <dependency type="executable" location="extensions">simpletransform.py</dependency>
   <dependency type="executable" location="extensions">simplestyle.py</dependency>
+  
   <param name="length" type="float" min="0.1" max="100000.0" precision="2" _gui-text="Length of scaling path: " _gui-description="Real-world length of the scaling path">100.0</param>
-  <param name="unit" type="enum" _gui-text="Unit: " _gui-description="Real-world unit for drawing">
-    <item value="px">px</item>
-    <item value="pt">pt</item>
-    <item value="in">in</item>
-    <item value="ft">ft</item>
-    <item value="yd">yd</item>
-    <item value="mm">mm</item>
-    <item value="cm">cm</item>
-    <item value="m">m</item>
-    <item value="km">km</item>
+  <param name="unit" type="optiongroup" appearance="minimal" _gui-text="Unit: " _gui-description="Real-world unit for drawing">
+    <option value="px">px</option>
+    <option value="pt">pt</option>
+    <option value="in">in</option>
+    <option value="ft">ft</option>
+    <option value="yd">yd</option>
+    <option value="mm">mm</option>
+    <option value="cm">cm</option>
+    <option value="m">m</option>
+    <option value="km">km</option>
   </param>
-  <param name="desc_unit" type="description">Large objects need a scale to be drawn on the page:</param>
-  <param name="showscale" type="boolean" _gui-text="Show Scale Ruler?">true</param>
-  <param name="drawnscale" type="enum" _gui-text="Drawing Scale:                    " _gui-description="-world unit for drawing">
+  <param name="desc_unit" type="description">Large objects need to be scaled to fit onto the page.</param>
+  <param name="desc_unit" type="description">Select a scale by choosing which list to pick from and then</param>
+  <param name="desc_unit" type="description">selecting a Scale. Or choose Manual, and enter directly.</param>
+  <param name="choosescale" _gui-text="Choose Scale category" type="optiongroup" appearance="minimal">
+    <option value="scales">All Scales</option>
+    <option value="metric">Metric</option>
+    <option value="imperial">Imperial</option>
+    <option value="manual">Manual</option></param>
+  <param name="scales" type="enum" _gui-text="All Scales:              "  _gui-description="All Standard scales for Drawings">
     <item value="1">1:1</item>
     <item value="2">1:2</item>
     <item value="4">1:4</item>
@@ -44,10 +52,41 @@
     <item value="1250">1:1250</item>
     <item value="2500">1:2500</item>
   </param>
-  <param name="unitlength" type="enum" _gui-text="Unit length                                ">
-    <item value="1">1</item>
-    <item value="10">10</item>
-    <item value="100">100</item>
+  <param name="metric" type="enum" _gui-text="Metric Scale:      " appearance="minimal" _gui-description="Metric scales for Drawings">
+    <item value="1">1:1</item>
+    <item value="2">1:2</item>
+    <item value="5">1:5</item>
+    <item value="10">1:10</item>
+    <item value="25">1:25</item>
+    <item value="33.3">1:33.3</item>
+    <item value="50">1:50</item>
+    <item value="100">1:100</item>
+    <item value="200">1:200</item>
+    <item value="250">1:250</item>
+    <item value="500">1:500</item>
+    <item value="1000">1:1000</item>
+    <item value="1250">1:1250</item>
+    <item value="2500">1:2500</item>
+  </param>
+  <param name="imperial" type="enum" _gui-text="Imperial Scale:     " _gui-description="Imperial scales for Drawings">
+    <item value="1">1:1</item>
+    <item value="2">1:2</item>
+    <item value="4">1:4</item>
+    <item value="8">1:8</item>
+    <item value="16">1:16</item>
+    <item value="24">1:24</item>
+    <item value="32">1:32</item>
+    <item value="48">1:48</item>
+    <item value="64">1:64</item>
+    <item value="96">1:96</item>
+    <item value="128">1:128</item>
+  </param>
+  <param name="drawnscale" type="float" min="0.0001" max="100000" _gui-text="Manual Scale Value: E.g. 45" _gui-description="Manual entry of Drawing scale factor">45</param>
+  <param name="showscale" type="boolean" _gui-text="Show Scale Ruler?" _gui-description="Draw the Scale Rule on the page">true</param>
+  <param name="unitlength" type="optiongroup" appearance="minimal" _gui-text="Ruler length                                " _gui-description="Length of the Scale Rule">
+    <option value="1">1</option>
+    <option value="10">10</option>
+    <option value="100">100</option>
   </param>
   <_param name="usage" type="description" appearance="header">Usage</_param>
   <_param name="Instructions" type="description" xml:space="preserve">Scale an object (or a group) by indicating the length of a scaling path in real-life units (useful for scaling architectural drawings, for example):
@@ -58,11 +97,9 @@
 
 • Length: indicate how long the line you drew is in the real world (e.g. how long the wall is).
 
-• Unit: indicate the unit you would like to use (e.g. mm, cm, ...), but remember that your drawing can become huge if you choose m or even km. Fix this with Drawing Scale.
+• Unit: indicate the unit the measurement is in, but remember that your drawing can become huge if you choose km or even m. Fix this with Drawing Scale.
 
-• Drawing Scale: This will scale the drawing to allow you to fit it on the page. Also you can show this with a ruler.
-
-• Unit Length: Distance shown on the Ruler.</_param>
+• Drawing Scale: This will scale the drawing to allow you to fit it on the page. You can show this scale with a ruler.</_param>
   <effect needs-live-preview="false">
     <object-type>all</object-type>
     <effects-menu>
