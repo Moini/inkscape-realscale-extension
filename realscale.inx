@@ -23,35 +23,9 @@
   <param name="desc_unit" type="description">Select a scale by choosing which list to pick from and then</param>
   <param name="desc_unit" type="description">selecting a Scale. Or choose Manual, and enter directly.</param>
   <param name="choosescale" _gui-text="Choose Scale category" type="optiongroup" appearance="minimal">
-    <option value="scales">All Scales</option>
     <option value="metric">Metric</option>
     <option value="imperial">Imperial</option>
-    <option value="manual">Manual</option></param>
-  <param name="scales" type="enum" _gui-text="All Scales:              "  _gui-description="All Standard scales for Drawings">
-    <item value="1">1:1</item>
-    <item value="2">1:2</item>
-    <item value="4">1:4</item>
-    <item value="5">1:5</item>
-    <item value="8">1:8</item>
-    <item value="10">1:10</item>
-    <item value="16">1:16</item>
-    <item value="24">1:24</item>
-    <item value="25">1:25</item>
-    <item value="32">1:32</item>
-    <item value="33.3">1:33.3</item>
-    <item value="48">1:48</item>
-    <item value="50">1:50</item>
-    <item value="64">1:64</item>
-    <item value="96">1:96</item>
-    <item value="100">1:100</item>
-    <item value="128">1:128</item>
-    <item value="200">1:200</item>
-    <item value="250">1:250</item>
-    <item value="500">1:500</item>
-    <item value="1000">1:1000</item>
-    <item value="1250">1:1250</item>
-    <item value="2500">1:2500</item>
-  </param>
+    <option value="custom">Custom</option></param>
   <param name="metric" type="enum" _gui-text="Metric Scale:      " appearance="minimal" _gui-description="Metric scales for Drawings">
     <item value="1">1:1</item>
     <item value="2">1:2</item>
@@ -81,9 +55,9 @@
     <item value="96">1:96</item>
     <item value="128">1:128</item>
   </param>
-  <param name="drawnscale" type="float" min="0.0001" max="100000" _gui-text="Manual Scale Value: E.g. 45" _gui-description="Manual entry of Drawing scale factor">45</param>
+  <param name="custom_scale" type="float" min="0.0001" max="100000" _gui-text="Manual Scale Value: E.g. 45" _gui-description="Manual entry of Drawing scale factor">45</param>
   <param name="showscale" type="boolean" _gui-text="Show Scale Ruler?" _gui-description="Draw the Scale Rule on the page">true</param>
-  <param name="unitlength" type="optiongroup" appearance="minimal" _gui-text="Ruler length                                " _gui-description="Length of the Scale Rule">
+  <param name="unitlength" type="optiongroup" appearance="minimal" _gui-text="Half Ruler length                                " _gui-description="Length of one half of Scale Ruler">
     <option value="1">1</option>
     <option value="10">10</option>
     <option value="100">100</option>
