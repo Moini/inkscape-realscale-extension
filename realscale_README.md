@@ -1,4 +1,7 @@
 # inkscape-realscale-extension
+
+<img align="left" src="https://cloud.githubusercontent.com/assets/3240233/14927197/c29c2d1e-0e50-11e6-925b-0b8d90ef2a5c.png">
+
 Inkscape extension for Inkscape 0.48 and 0.91 that allows for quick resizing of (architectural) drawings by indicating a line and its length in real world units and can optionally scale the drawing with a specific scale factor and draw a scale rule.
 
 ## Installation: 
