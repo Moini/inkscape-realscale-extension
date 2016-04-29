@@ -31,8 +31,8 @@
       <item value="2">1:2</item>
       <item value="5">1:5</item>
       <item value="10">1:10</item>
+      <item value="20">1:20</item>
       <item value="25">1:25</item>
-      <item value="33.3">1:33.3</item>
       <item value="50">1:50</item>
       <item value="100">1:100</item>
       <item value="200">1:200</item>
@@ -55,7 +55,7 @@
       <item value="96">1:96</item>
       <item value="128">1:128</item>
     </param>
-    <param name="custom_scale" type="float" min="0.0001" max="100000" _gui-text="Custom Scale Value: E.g. 45" _gui-description="Enter a custom drawing scale factor">45</param>
+    <param name="custom_scale" type="float" min="0.0001" max="2000000" _gui-text="Custom Scale Value: E.g. 45" _gui-description="Enter a custom drawing scale factor">45</param>
 
     <_param name="scale_rule" type="description" appearance="header">Scale Rule</_param>
     <param name="showscale" type="boolean" _gui-text="Generate Scale Rule" _gui-description="Draw the scale rule on the page">true</param>
