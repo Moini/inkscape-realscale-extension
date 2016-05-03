@@ -102,9 +102,8 @@ class Realscale(inkex.Effect):
             - pos is a tuple e.g. (0,0)
             
             TODO:
-            - Add magnification e.g. 2:1 for small drawings
             - Fix font size for large and small rulers
-            - (Fix that this doesn't work with scales different from 1) Check if fixed!
+            - Fix line width for large and small rulers
         """
         " Ruler is always 2 units long with 5 divs in the left half "
         # Draw two boxes next to each other. Top half of right half of ruler is filled black
@@ -114,18 +113,24 @@ class Realscale(inkex.Effect):
         White = '#ffffff'
         Black = '#000000'
         t = 'translate' + str(pos)
-        scale_group = inkex.etree.SubElement(parent, 'g', {inkex.addNS('label','inkscape'):"scale_group", 'transform':t})
         
-        ruler_group = inkex.etree.SubElement(scale_group, 'g', {inkex.addNS('label','inkscape'):"ruler"})
+        # create clip in order to get an exact ruler width (without the outer half of the stroke)
+        path = '//svg:defs'
+        defslist = self.document.getroot().xpath(path, namespaces=inkex.NSS)
+        if len(defslist) > 0:
+            defs = defslist[0]
         
-        # box for clipping the ruler, so it has an exact size, uncomment to use
-        # TODO: needs to be used for clipping... 
-        
-        
-        #clipBox = {'x':str(-width), 'y':'0.0',
-                #'width':str(width*2), 'height':str(box_height),
-                #'style':'fill:%s; stroke:none; fill-opacity:1;' % (Black)}
-        #inkex.etree.SubElement(scale_group, 'rect', clipBox)
+        clipPathData = {inkex.addNS('label', 'inkscape'):'rulerClipPath', 'clipPathUnits':'userSpaceOnUse', 'id':'rulerClipPath'}
+        clipPath = inkex.etree.SubElement(defs, 'clipPath', clipPathData)
+        clipBox = {'x':str(-width), 'y':'0.0',
+                'width':str(width*2), 'height':str(box_height),
+                'style':'fill:%s; stroke:none; fill-opacity:1;' % (Black)}
+
+        inkex.etree.SubElement(clipPath, 'rect', clipBox)
+
+        # create groups for scale rule and ruler
+        scale_group = inkex.etree.SubElement(parent, 'g', {inkex.addNS('label','inkscape'):'scale_group', 'transform':t})
+        ruler_group = inkex.etree.SubElement(scale_group, 'g', {inkex.addNS('label','inkscape'):'ruler', 'clip-path':"url(#rulerClipPath)"})
         
         # box for right half of ruler
         boxR = {'x':'0.0', 'y':'0.0',
@@ -211,7 +216,7 @@ class Realscale(inkex.Effect):
         elif self.options.choosescale == 'imperial':
             drawing_scale = int(self.options.imperial)
         elif self.options.choosescale == 'custom':
-            drawing_scale = int(self.options.custom_scale)
+            drawing_scale = self.options.custom_scale
         
         # calculate scaling center
         center = self.calc_scale_center(p1_x, p1_y, p2_x, p2_y)
