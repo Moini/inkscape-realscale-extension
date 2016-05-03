@@ -21,7 +21,7 @@ If you are using Inkscape 0.48, it may happen that the extension crashes the pro
 * Select the unit you used (for your 10.50 m house, select m; for your 10 cm cardboard box, select cm)
 * If you intend to print the drawing, and the original object is bigger than the sheet, consider using a scale factor.
 * To do so, first select if you want to use a metric scale factor (based on mulitples of 5) or an imperial one (based on multiples of 2) or if you would like to enter your own scale factor.
-* Then, in the corresponding dropdown, or in the number entry field, select or enter the scale you would like to use.
+* Then, in the corresponding dropdown, or in the number entry field, select or enter the scale you would like to use. The dropdowns only offer scale factors for downscaling. In the 'Custom' field, however, you can also enter values smaller than 1 to upscale a drawing.
 * If you would like the scale rule to be drawn on the page, check the option 'Generate Scale Rule'.
 * Now choose the number of units the scale rule will comprise. Those will be doubled in the generated scale rule - e.g. it will show 10 cm to the left of the scale rule center (labelled 0) and 10 cm to its right.
 * Apply!
